@@ -6,10 +6,11 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 // Register HttpClient for components that expect it (e.g. Pokedex)
-// Point HttpClient to the backend API base address. Adjust port if your API runs on a different port.
+// Point HttpClient to the backend API base address from configuration
+var apiBaseUrl = builder.Configuration["ApiSettings:BaseUrl"] ?? "http://localhost:5122/";
 builder.Services.AddScoped(sp => new System.Net.Http.HttpClient
 {
-    BaseAddress = new System.Uri("http://localhost:5122/")
+    BaseAddress = new System.Uri(apiBaseUrl)
 });
 
 // Auth service to handle login/register and token management
